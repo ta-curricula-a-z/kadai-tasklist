@@ -15,4 +15,11 @@ use App\Http\Controllers\TasksController;
 */
 
 Route::get('/', [TasksController::class, 'index']);
-Route::resource('tasks', TasksController::class);
+
+Route::get('/dashboard', [TasksController::class, 'index'])->middleware(['auth'])->name('dashboard');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('tasks', TasksController::class);
+});
+
+require __DIR__.'/auth.php';
